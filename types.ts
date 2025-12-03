@@ -43,7 +43,7 @@ export interface DiscordAuth {
     id: string;
     username: string;
     discriminator: string;
-    avatar: string | null;
+    avatar?: string | null;
     global_name?: string | null;
   };
 }
