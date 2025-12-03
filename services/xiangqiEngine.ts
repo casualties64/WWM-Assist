@@ -1,5 +1,3 @@
-// @ts-ignore
-import Module from 'ffish-es6';
 import { BoardState, PieceColor, PieceType } from '../types';
 
 let ffishInstance: any = null;
@@ -9,17 +7,31 @@ let engineReady = false;
 export const initEngine = async () => {
     if (ffishInstance) return;
     try {
-        ffishInstance = await Module({
-            locateFile: (path: string) => {
-                if (path.endsWith('.wasm')) {
-                    // Match the version provided in index.html importmap (0.7.8)
-                    return 'https://unpkg.com/ffish-es6@0.7.8/ffish.wasm';
+        // Dynamic import to prevent bundle crash if module format is incompatible
+        // We use a try-catch block specifically around the import for robustness
+        let Module;
+        try {
+            // @ts-ignore
+            const moduleImport = await import('ffish-es6');
+            Module = moduleImport.default || moduleImport;
+        } catch (importError) {
+            console.warn("Could not import ffish-es6 locally. This is expected in some preview environments.", importError);
+            return;
+        }
+
+        if (Module) {
+            ffishInstance = await Module({
+                locateFile: (path: string) => {
+                    if (path.endsWith('.wasm')) {
+                        // Use unpkg as a reliable CDN for the WASM file
+                        return 'https://unpkg.com/ffish-es6@0.7.8/ffish.wasm';
+                    }
+                    return path;
                 }
-                return path;
-            }
-        });
-        engineReady = true;
-        console.log("Xiangqi Engine Initialized");
+            });
+            engineReady = true;
+            console.log("Xiangqi Engine Initialized");
+        }
     } catch (e) {
         console.error("Failed to load Xiangqi Engine:", e);
     }

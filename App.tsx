@@ -65,7 +65,19 @@ const App: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col h-screen w-screen bg-stone-900 items-center justify-center text-stone-400">
+      <div 
+        className="flex flex-col h-screen w-screen bg-stone-900 items-center justify-center text-stone-400"
+        style={{ 
+            backgroundColor: '#1c1917', 
+            height: '100vh', 
+            width: '100vw', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            color: '#a8a29e'
+        }}
+      >
         <Loader2 className="animate-spin mb-4" size={48} />
         <p className="text-lg">Connecting to Discord...</p>
       </div>
@@ -119,7 +131,10 @@ const App: React.FC = () => {
   // Discord Activity Layout (Sidebar)
   if (isDiscord) {
     return (
-      <div className="flex h-screen w-screen bg-stone-900 text-stone-100 font-sans">
+      <div 
+        className="flex h-screen w-screen bg-stone-900 text-stone-100 font-sans"
+        style={{ backgroundColor: '#1c1917', minHeight: '100vh' }}
+      >
         <nav className="shrink-0 bg-stone-950 border-r border-stone-800 w-56 flex flex-col p-3">
           <div className="h-16 flex items-center px-2 mb-4">
               <h1 className="text-md font-bold tracking-wider text-stone-200">WWM <span className="text-amber-600">Companion</span></h1>
@@ -150,7 +165,10 @@ const App: React.FC = () => {
 
   // Default Standalone Layout (Bottom Nav)
   return (
-    <div className="flex flex-col h-screen w-screen bg-stone-900 text-stone-100 font-sans">
+    <div 
+        className="flex flex-col h-screen w-screen bg-stone-900 text-stone-100 font-sans"
+        style={{ backgroundColor: '#1c1917', minHeight: '100vh' }}
+    >
       <header className="bg-stone-950 border-b border-stone-800 p-3 flex items-center justify-between shrink-0 z-10">
         {headerContent}
         <div className="text-xs text-stone-500 hidden sm:block">
